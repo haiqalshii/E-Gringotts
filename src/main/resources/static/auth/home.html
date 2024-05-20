@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank App Home</title>
+    <style>
+        /* Styles from your provided code */
+        body {
+            background-color: #f5f3e6;
+            font-family: 'Merriweather', serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff4e6;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #bfa980;
+        }
+        h2 {
+            text-align: center;
+            color: #563d7c;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f7f1;
+            font-size: 1em;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #563d7c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #45296e;
+        }
+        .card {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #e6d5b8;
+            border: 1px solid #bfa980;
+            border-radius: 5px;
+        }
+        .card-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #563d7c;
+        }
+        .result {
+            margin-top: 10px;
+        }
+        /* Parchment Paper Effect */
+        .container {
+            background: #f9f3e7;
+            border: 2px solid #d3b187;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'MedievalSharp', cursive;
+        }
+        input, select {
+            background: #fff8e6;
+        }
+        .card {
+            background: #fff8e6;
+            border: 1px solid #d3b187;
+        }
+        /* Magical Fonts and Colors */
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #f0e6d6;
+            color: #333;
+        }
+        h2 {
+            font-family: 'Cinzel Decorative', cursive;
+        }
+        label {
+            color: #6d4c41;
+        }
+        button {
+            font-family: 'Cinzel', serif;
+            background: #6d4c41;
+            color: #fff;
+        }
+        button:hover {
+            background: #4b3621;
+        }
+        /* Card Styles */
+        .card-header {
+            font-family: 'Cinzel', serif;
+            color: #4b3621;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+        }
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Merriweather:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Bank App Home</h2>
+
+    <div class="section" id="account-details">
+        <h3>View Account Details</h3>
+        <button onclick="getAccountDetails()">Get Account Details</button>
+        <div class="result" id="accountDetailsResult"></div>
+    </div>
+
+    <div class="section" id="user-accounts">
+        <h3>View My Accounts</h3>
+        <button onclick="getUserAccounts()">Get My Accounts</button>
+        <div class="result" id="userAccountsResult"></div>
+    </div>
+
+    <!-- Other sections omitted for brevity -->
+
+</div>
+
+<script>
+    const token = localStorage.getItem('jwtToken');
+
+    function handleResponse(response) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }
+
+    function getUserAccounts() {
+        fetch('/user/my-accounts', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(handleResponse)
+            .then(data => {
+                const userAccountsResult = document.getElementById('userAccountsResult');
+                userAccountsResult.innerHTML = '';
+
+                data.forEach(account => {
+                    const accountCard = document.createElement('div');
+                    accountCard.classList.add('card');
+                    accountCard.innerHTML = `
+                    <div class="card-header">Account Number: ${account.accountNumber}</div>
+                    <p><strong>Balance:</strong> ${account.balance}</p>
+                    <p><strong>Account Tier:</strong> ${account.accountTier}</p>
+                `;
+                    userAccountsResult.appendChild(accountCard);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Other functions omitted for brevity
+</script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Bank App Home</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-color: #f5f3e6;-->
+<!--            font-family: 'Merriweather', serif;-->
+<!--            color: #333;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            max-width: 600px;-->
+<!--            margin: 50px auto;-->
+<!--            padding: 20px;-->
+<!--            background: #fff4e6;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            border: 2px solid #bfa980;-->
+<!--        }-->
+
+<!--        h2 {-->
+<!--            text-align: center;-->
+<!--            color: #563d7c;-->
+<!--            font-family: 'Cinzel', serif;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        label {-->
+<!--            display: block;-->
+<!--            margin-bottom: 8px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        input, select {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            margin-bottom: 20px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--            background: #f9f7f1;-->
+<!--            font-size: 1em;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            background: #563d7c;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--            cursor: pointer;-->
+<!--            font-size: 1.2em;-->
+<!--            transition: background 0.3s ease;-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            background: #45296e;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            margin-bottom: 15px;-->
+<!--            padding: 10px;-->
+<!--            background: #e6d5b8;-->
+<!--            border: 1px solid #bfa980;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+
+<!--        .card-header {-->
+<!--            font-weight: bold;-->
+<!--            font-size: 1.1em;-->
+<!--            margin-bottom: 5px;-->
+<!--            color: #563d7c;-->
+<!--        }-->
+
+<!--        /* Parchment Paper Effect */-->
+<!--        .container {-->
+<!--            background: #f9f3e7;-->
+<!--            border: 2px solid #d3b187;-->
+<!--            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);-->
+<!--            font-family: 'MedievalSharp', cursive;-->
+<!--        }-->
+
+<!--        input, select {-->
+<!--            background: #fff8e6;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background: #fff8e6;-->
+<!--            border: 1px solid #d3b187;-->
+<!--        }-->
+
+<!--        /* Magical Fonts and Colors */-->
+<!--        body {-->
+<!--            font-family: 'Cinzel', serif;-->
+<!--            background-color: #f0e6d6;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        h2 {-->
+<!--            font-family: 'Cinzel Decorative', cursive;-->
+<!--        }-->
+
+<!--        label {-->
+<!--            color: #6d4c41;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            font-family: 'Cinzel', serif;-->
+<!--            background: #6d4c41;-->
+<!--            color: #fff;-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            background: #4b3621;-->
+<!--        }-->
+
+<!--        /* Card Styles */-->
+<!--        .card-header {-->
+<!--            font-family: 'Cinzel', serif;-->
+<!--            color: #4b3621;-->
+<!--        }-->
+
+<!--        /* Responsive Design */-->
+<!--        @media (max-width: 600px) {-->
+<!--            .container {-->
+<!--                width: 90%;-->
+<!--                padding: 10px;-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Font Imports */-->
+<!--        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Merriweather:wght@300;400;700&display=swap');-->
+<!--        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h2>Bank App Home</h2>-->
+
+<!--    <div class="section" id="account-details">-->
+<!--        <h3>View Account Details</h3>-->
+<!--        <button onclick="getAccountDetails()">Get Account Details</button>-->
+<!--        <div class="result" id="accountDetailsResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="user-accounts">-->
+<!--        <h3>View My Accounts</h3>-->
+<!--        <button onclick="getUserAccounts()">Get My Accounts</button>-->
+<!--        <div class="result" id="userAccountsResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="currency-conversion">-->
+<!--        <h3>Currency Conversion</h3>-->
+<!--        <label for="fromCurrency">From Currency:</label>-->
+<!--        <input type="text" id="fromCurrency">-->
+<!--        <label for="toCurrency">To Currency:</label>-->
+<!--        <input type="text" id="toCurrency">-->
+<!--        <label for="amount">Amount:</label>-->
+<!--        <input type="number" id="amount">-->
+<!--        <button onclick="convertCurrency()">Convert</button>-->
+<!--        <div class="result" id="currencyConversionResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="transaction-history">-->
+<!--        <h3>View Transaction History</h3>-->
+<!--        <button onclick="getTransactionHistory()">Get Transaction History</button>-->
+<!--        <div class="result" id="transactionHistoryResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="transfer-money">-->
+<!--        <h3>Transfer Money</h3>-->
+<!--        <label for="recipientAccount">Recipient Account:</label>-->
+<!--        <input type="text" id="recipientAccount">-->
+<!--        <label for="transferAmount">Amount:</label>-->
+<!--        <input type="number" id="transferAmount">-->
+<!--        <button onclick="transferMoney()">Transfer</button>-->
+<!--        <div class="result" id="transferMoneyResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="deposit-money">-->
+<!--        <h3>Deposit Money</h3>-->
+<!--        <label for="depositAmount">Amount:</label>-->
+<!--        <input type="number" id="depositAmount">-->
+<!--        <button onclick="depositMoney()">Deposit</button>-->
+<!--        <div class="result" id="depositMoneyResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="withdraw-money">-->
+<!--        <h3>Withdraw Money</h3>-->
+<!--        <label for="withdrawAmount">Amount:</label>-->
+<!--        <input type="number" id="withdrawAmount">-->
+<!--        <button onclick="withdrawMoney()">Withdraw</button>-->
+<!--        <div class="result" id="withdrawMoneyResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="current-user">-->
+<!--        <h3>Get Current User</h3>-->
+<!--        <button onclick="getCurrentUser()">Get Current User</button>-->
+<!--        <div class="result" id="currentUserResult"></div>-->
+<!--    </div>-->
+
+<!--    <div class="section" id="search-accounts">-->
+<!--        <h3>Search Accounts</h3>-->
+<!--        <label for="userInfo">User Info:</label>-->
+<!--        <input type="text" id="userInfo">-->
+<!--        <button onclick="searchAccounts()">Search</button>-->
+<!--        <div class="result" id="searchAccountsResult"></div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    const token = localStorage.getItem('jwtToken');-->
+
+<!--    function handleResponse(response) {-->
+<!--        if (!response.ok) {-->
+<!--            throw new Error('Network response was not ok');-->
+<!--        }-->
+<!--        return response.json();-->
+<!--    }-->
+
+<!--    function getAccountDetails() {-->
+<!--        fetch('/user/accounts/account-details', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ /* populate with necessary data */ })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('accountDetailsResult').innerText = JSON.stringify(data, null, 2);-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function getUserAccounts() {-->
+<!--        const token = localStorage.getItem('jwtToken');-->
+<!--        fetch('/user/my-accounts', {-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            }-->
+<!--        })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                const resultDiv = document.getElementById('result');-->
+<!--                resultDiv.innerHTML = '<h2>My Accounts</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function convertCurrency() {-->
+<!--        const fromCurrency = document.getElementById('fromCurrency').value;-->
+<!--        const toCurrency = document.getElementById('toCurrency').value;-->
+<!--        const amount = document.getElementById('amount').value;-->
+
+<!--        fetch('/currency-conversion/convert', {-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ fromCurrency, toCurrency, amount })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('currencyConversionResult').innerText = data;-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function getTransactionHistory() {-->
+<!--        fetch('/accounts/transaction-history', {-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ /* populate with necessary data */ })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('transactionHistoryResult').innerText = JSON.stringify(data, null, 2);-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function transferMoney() {-->
+<!--        const recipientAccount = document.getElementById('recipientAccount').value;-->
+<!--        const transferAmount = document.getElementById('transferAmount').value;-->
+
+<!--        fetch('/accounts/transfer-money', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ recipientAccount, transferAmount })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('transferMoneyResult').innerText = data;-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function depositMoney() {-->
+<!--        const depositAmount = document.getElementById('depositAmount').value;-->
+
+<!--        fetch('/accounts/deposit-money', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ depositAmount })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('depositMoneyResult').innerText = data;-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function withdrawMoney() {-->
+<!--        const withdrawAmount = document.getElementById('withdrawAmount').value;-->
+
+<!--        fetch('/accounts/withdraw-money', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ withdrawAmount })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('withdrawMoneyResult').innerText = data;-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function getCurrentUser() {-->
+<!--        fetch('/me', {-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            }-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('currentUserResult').innerText = JSON.stringify(data, null, 2);-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+
+<!--    function searchAccounts() {-->
+<!--        const userInfo = document.getElementById('userInfo').value;-->
+
+<!--        fetch('/search', {-->
+<!--            method: 'GET',-->
+<!--            headers: {-->
+<!--                'Authorization': 'Bearer ' + token,-->
+<!--                'Content-Type': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify({ userInfo })-->
+<!--        })-->
+<!--            .then(handleResponse)-->
+<!--            .then(data => {-->
+<!--                document.getElementById('searchAccountsResult').innerText = JSON.stringify(data, null, 2);-->
+<!--            })-->
+<!--            .catch(error => console.error('Error:', error));-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->

@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +38,7 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -46,7 +47,7 @@ public class User implements UserDetails {
     private List<Cards> cards = new ArrayList<>();
 
     public User(String email, String password, String firstName, String lastName,
-                String phoneNumber, LocalDateTime dateOfBirth) {
+                String phoneNumber, LocalDate dateOfBirth) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;

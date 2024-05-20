@@ -34,6 +34,8 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:2.1.1'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.2.5'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.2.5'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api

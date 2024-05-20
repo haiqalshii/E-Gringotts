@@ -4,6 +4,7 @@ import com.bankhaven.egringotts.model.enums.AccountTier;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data

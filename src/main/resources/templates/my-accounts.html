@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Details</title>
+    <style>
+        body {
+            background-color: #f5f3e6;
+            font-family: 'Merriweather', serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff4e6;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #bfa980;
+        }
+
+        h2 {
+            text-align: center;
+            color: #563d7c;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f7f1;
+            font-size: 1em;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #563d7c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45296e;
+        }
+
+        .card {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #e6d5b8;
+            border: 1px solid #bfa980;
+            border-radius: 5px;
+        }
+
+        .card-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #563d7c;
+        }
+
+        /* Parchment Paper Effect */
+        .container {
+            background: #f9f3e7;
+            border: 2px solid #d3b187;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        input, select {
+            background: #fff8e6;
+        }
+
+        .card {
+            background: #fff8e6;
+            border: 1px solid #d3b187;
+        }
+
+        /* Magical Fonts and Colors */
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #f0e6d6;
+            color: #333;
+        }
+
+        h2 {
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        label {
+            color: #6d4c41;
+        }
+
+        button {
+            font-family: 'Cinzel', serif;
+            background: #6d4c41;
+            color: #fff;
+        }
+
+        button:hover {
+            background: #4b3621;
+        }
+
+        /* Card Styles */
+        .card-header {
+            font-family: 'Cinzel', serif;
+            color: #4b3621;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Merriweather:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+    </style>
+</head>
+<body>
+<div class="account-container">
+    <h1>Account Details</h1>
+    <div id="accounts"></div>
+    <button class="back-button" onclick="goBack()">Back to Home</button>
+</div>
+<script>
+    function goBack() {
+        window.location.href = 'home.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            alert('No token found. Please log in again.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        fetch('/user/my-accounts', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const accountsDiv = document.getElementById('accounts');
+                if (data.length === 0) {
+                    accountsDiv.innerHTML = '<p>No accounts found.</p>';
+                } else {
+                    data.forEach(account => {
+                        const accountDiv = document.createElement('div');
+                        accountDiv.className = 'account';
+                        accountDiv.innerHTML = `
+                            <h2>Account Number: ${account.accountNumber}</h2>
+                            <p>Balance: ${account.balance}</p>
+                            <p>Account Tier: ${account.accountTier}</p>
+                            <p>Created At: ${account.createdAt}</p>
+                            <h3>User Details:</h3>
+                            <p>Name: ${account.userDto.firstName} ${account.userDto.lastName}</p>
+                            <p>Email: ${account.userDto.email}</p>
+                            <p>Phone Number: ${account.userDto.phoneNumber}</p>
+                            <p>Date of Birth: ${account.userDto.dateOfBirth}</p>
+                            <p>Address: ${account.userDto.address.plainAddress}, ${account.userDto.address.district.title}, ${account.userDto.address.place.title}</p>
+                        `;
+                        accountsDiv.appendChild(accountDiv);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching accounts:', error);
+                alert('Error fetching accounts. Please try again.');
+            });
+    });
+</script>
+</body>
+</html>

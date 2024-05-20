@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class RegisterUserRequestDto {
     private String place;
 
     @Past(message = "Date of birth cannot be in the future.")
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private UserRole role;
 

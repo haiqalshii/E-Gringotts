@@ -8,14 +8,14 @@ import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class TransactionDto {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
     private BigDecimal amount;
-    private LocalDateTime date;
+    private LocalDate date;
     private TransactionCategory transactionCategory;
     private String description;
     @Nullable

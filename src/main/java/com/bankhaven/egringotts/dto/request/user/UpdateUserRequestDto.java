@@ -2,6 +2,7 @@ package com.bankhaven.egringotts.dto.request.user;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,7 +12,7 @@ public class UpdateUserRequestDto {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String plainAddress;
     private String district;
     private String place;

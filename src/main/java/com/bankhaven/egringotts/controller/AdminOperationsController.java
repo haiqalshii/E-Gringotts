@@ -101,7 +101,6 @@ public class AdminOperationsController {
         return ResponseEntity.ok(message);
     }
 
-    // Allow admin to update user details
     @PutMapping("/user/update")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserRequestDto updateUserRequest) {
         String message = userService.updateUserDetails(updateUserRequest);

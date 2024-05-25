@@ -144,7 +144,6 @@ public class TransactionService {
     }
 
 
-
     @NonNull
     private List<TransactionDto> getTransactionDtos(List<Transaction> transactions) {
         return transactions.stream().map(transaction -> {

@@ -1,12 +1,19 @@
 package com.bankhaven.egringotts.service;
 
+import com.bankhaven.egringotts.dto.request.currencyconversion.NewCurrencyConversionRequestDto;
+import com.bankhaven.egringotts.model.Account;
 import com.bankhaven.egringotts.model.ConversionRate;
 import com.bankhaven.egringotts.model.Currency;
+import com.bankhaven.egringotts.model.Transaction;
+import com.bankhaven.egringotts.model.enums.TransactionType;
+import com.bankhaven.egringotts.repository.AccountRepository;
 import com.bankhaven.egringotts.repository.ConversionRateRepository;
 import com.bankhaven.egringotts.repository.CurrencyRepository;
+import com.bankhaven.egringotts.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -14,10 +21,18 @@ public class CurrencyConversionService {
 
     private final CurrencyRepository currencyRepository;
     private final ConversionRateRepository conversionRateRepository;
+    private final AccountService accountService;
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
+    private final EmailService emailService;
 
-    public CurrencyConversionService(CurrencyRepository currencyRepository, ConversionRateRepository conversionRateRepository) {
+    public CurrencyConversionService(CurrencyRepository currencyRepository, ConversionRateRepository conversionRateRepository, AccountService accountService, AccountRepository accountRepository, TransactionRepository transactionRepository, EmailService emailService) {
         this.currencyRepository = currencyRepository;
         this.conversionRateRepository = conversionRateRepository;
+        this.accountService = accountService;
+        this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -37,10 +52,12 @@ public class CurrencyConversionService {
         conversionRateRepository.save(rate);
     }
 
-    public String convertCurrency(String fromCurrencyCode, String toCurrencyCode, double amount) {
-        Currency fromCurrency = currencyRepository.findById(fromCurrencyCode)
+    public String convertCurrency(NewCurrencyConversionRequestDto conversionRequestDto, String userId) {
+        String accountNumber = conversionRequestDto.getAccountNumber();
+        Account account = accountService.findAccountByAccountNumber(accountNumber, userId);
+        Currency fromCurrency = currencyRepository.findById(conversionRequestDto.getFromCurrency())
                 .orElseThrow(() -> new IllegalArgumentException("Currency not found"));
-        Currency toCurrency = currencyRepository.findById(toCurrencyCode)
+        Currency toCurrency = currencyRepository.findById(conversionRequestDto.getToCurrency())
                 .orElseThrow(() -> new IllegalArgumentException("Currency not found"));
 
         List<ConversionRate> conversionPath = findConversionPath(fromCurrency, toCurrency);
@@ -57,11 +74,26 @@ public class CurrencyConversionService {
                     " Fee: " + rate.getFee());
         }
 
-        double conversionResult = calculateConversionResult(conversionPath, amount);
-        double processingFee = calculateProcessingFee(conversionPath, amount);
+        double conversionResult = calculateConversionResult(conversionPath, conversionRequestDto.getAmount());
+        double processingFee = calculateProcessingFee(conversionPath, conversionRequestDto.getAmount());
 
-        return "Conversion Result: " + conversionResult +
-                "\nProcessing Fee: " + processingFee;
+        account.setBalance(account.getBalance().subtract(BigDecimal.valueOf(conversionRequestDto.getAmount())).subtract(BigDecimal.valueOf(processingFee)));
+        accountRepository.save(account);
+
+        Transaction newTransaction = new Transaction();
+        newTransaction.setTransactionType(TransactionType.CONVERSION);
+        newTransaction.setDescription("Currency conversion from " + fromCurrency.getCode() + " to " + toCurrency.getCode());
+        newTransaction.setSenderAccount(account);
+        newTransaction.setAmount(BigDecimal.valueOf(conversionResult));
+
+        transactionRepository.save(newTransaction);
+
+        String userName = account.getUser().getFirstName() + " " + account.getUser().getLastName();
+        String receipt = emailService.generateReceiptForConversion(newTransaction, conversionRequestDto, userName);
+        emailService.sendReceiptEmail(account.getUser().getEmail(), "E-Gringotts Conversion Receipt", receipt);
+
+        return "Conversion successful. A receipt has been sent to your email.";
+
     }
 
     private List<ConversionRate> findConversionPath(Currency fromCurrency, Currency toCurrency) {
@@ -115,4 +147,7 @@ public class CurrencyConversionService {
 
         return totalFee;
     }
+
+
 }
+

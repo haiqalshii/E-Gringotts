@@ -1,5 +1,6 @@
 package com.bankhaven.egringotts.service;
 
+import com.bankhaven.egringotts.dto.request.currencyconversion.NewCurrencyConversionRequestDto;
 import com.bankhaven.egringotts.model.Transaction;
 import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +152,31 @@ public class EmailService {
                 transaction.getDate(),
                 transaction.getSenderAccount().getAccountNumber(),
                 transaction.getSenderAccount().getBalance(),
+                transaction.getAmount(),
+                transaction.getTransactionType(),
+                transaction.getDescription()
+        );
+    }
+
+    public String generateReceiptForConversion(Transaction transaction, NewCurrencyConversionRequestDto currencyConversionRequestDto, String userName) {
+        return String.format(
+                "🔮 E-GRINGOTTS RECEIPT 🔮\n\n" +
+                        "✨ Transaction ID: %s\n" +
+                        "📅 Date: %s\n" +
+                        "👤 User: %s\n" +
+                        "💱 From Currency: %s\n" +
+                        "💱 To Currency: %s\n" +
+                        "💰 Converted Amount: %s\n" +
+                        "🏷️ Transaction Type: %s\n" +
+                        "📝 Description: %s\n\n" +
+                        "Thank you for using E-GRINGOTTS. Your magical conversion has been successfully completed. ✨\n\n" +
+                        "For any inquiries or further assistance, owl us at support@egringotts.com. 🦉\n\n" +
+                        "May your galleons multiply like Fizzing Whizbees! 💫",
+                transaction.getId(),
+                transaction.getDate(),
+                userName,
+                currencyConversionRequestDto.getFromCurrency(),
+                currencyConversionRequestDto.getToCurrency(),
                 transaction.getAmount(),
                 transaction.getTransactionType(),
                 transaction.getDescription()

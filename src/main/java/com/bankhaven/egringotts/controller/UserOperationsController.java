@@ -32,6 +32,7 @@ public class UserOperationsController {
     private final UserService userService;
     private final CurrencyConversionService currencyConversionService;
 
+
     public UserOperationsController(AccountService accountService, TransactionService transactionService, UserService userService, CurrencyConversionService currencyConversionService) {
         this.accountService = accountService;
         this.transactionService = transactionService;
@@ -55,12 +56,14 @@ public class UserOperationsController {
         return ResponseEntity.ok(accountService.getAllAccounts(user));
     }
 
-    @GetMapping("/currency-conversion/convert")
-    public ResponseEntity<String> convertCurrency(@RequestBody NewCurrencyConversionRequestDto requestDto) {
-        String result = currencyConversionService.convertCurrency(requestDto.getFromCurrency(), requestDto.getToCurrency(), requestDto.getAmount());
-        // Since we're directly printing the result in the service,
-        // we can just return a success message here.
-        return ResponseEntity.ok(result);
+    @PostMapping("/currency-conversion/convert")
+    public ResponseEntity<String> convertCurrencyAndDeductBalance(@RequestBody NewCurrencyConversionRequestDto conversionRequestDto) {
+        // Extract the user ID from the security context
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Call the conversion service
+        String response = currencyConversionService.convertCurrency(conversionRequestDto, user.getId());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/accounts/transaction-history")

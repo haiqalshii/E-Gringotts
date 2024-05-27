@@ -19,6 +19,7 @@ import java.util.*;
 @Service
 public class CurrencyConversionService {
 
+    // Constructor
     private final CurrencyRepository currencyRepository;
     private final ConversionRateRepository conversionRateRepository;
     private final AccountService accountService;
@@ -26,7 +27,12 @@ public class CurrencyConversionService {
     private final TransactionRepository transactionRepository;
     private final EmailService emailService;
 
-    public CurrencyConversionService(CurrencyRepository currencyRepository, ConversionRateRepository conversionRateRepository, AccountService accountService, AccountRepository accountRepository, TransactionRepository transactionRepository, EmailService emailService) {
+    public CurrencyConversionService(CurrencyRepository currencyRepository,
+                                     ConversionRateRepository conversionRateRepository,
+                                     AccountService accountService,
+                                     AccountRepository accountRepository,
+                                     TransactionRepository transactionRepository,
+                                     EmailService emailService) {
         this.currencyRepository = currencyRepository;
         this.conversionRateRepository = conversionRateRepository;
         this.accountService = accountService;
@@ -35,6 +41,7 @@ public class CurrencyConversionService {
         this.emailService = emailService;
     }
 
+    // Public Service Methods
     @Transactional
     public void addCurrency(String currencyCode) {
         Currency currency = new Currency(currencyCode);
@@ -42,7 +49,8 @@ public class CurrencyConversionService {
     }
 
     @Transactional
-    public void addConversionRate(String fromCurrencyCode, String toCurrencyCode, double conversionRate, double fee) {
+    public void addConversionRate(String fromCurrencyCode, String toCurrencyCode,
+                                  double conversionRate, double fee) {
         Currency fromCurrency = currencyRepository.findById(fromCurrencyCode)
                 .orElseThrow(() -> new IllegalArgumentException("Currency not found"));
         Currency toCurrency = currencyRepository.findById(toCurrencyCode)
@@ -52,6 +60,8 @@ public class CurrencyConversionService {
         conversionRateRepository.save(rate);
     }
 
+    // Transactional Methods
+    @Transactional
     public String convertCurrency(NewCurrencyConversionRequestDto conversionRequestDto, String userId) {
         String accountNumber = conversionRequestDto.getAccountNumber();
         Account account = accountService.findAccountByAccountNumber(accountNumber, userId);
@@ -65,37 +75,21 @@ public class CurrencyConversionService {
             throw new IllegalArgumentException("Conversion path not found");
         }
 
-        // Debugging: Print the conversion path
-        System.out.println("Conversion Path:");
-        for (ConversionRate rate : conversionPath) {
-            System.out.println("From " + rate.getFromCurrency().getCode() +
-                    " to " + rate.getToCurrency().getCode() +
-                    " Rate: " + rate.getConversionRate() +
-                    " Fee: " + rate.getFee());
-        }
+        printConversionPath(conversionPath);
 
         double conversionResult = calculateConversionResult(conversionPath, conversionRequestDto.getAmount());
         double processingFee = calculateProcessingFee(conversionPath, conversionRequestDto.getAmount());
 
-        account.setBalance(account.getBalance().subtract(BigDecimal.valueOf(conversionRequestDto.getAmount())).subtract(BigDecimal.valueOf(processingFee)));
-        accountRepository.save(account);
+        updateAccount(account, conversionRequestDto.getAmount(), processingFee);
 
-        Transaction newTransaction = new Transaction();
-        newTransaction.setTransactionType(TransactionType.CONVERSION);
-        newTransaction.setDescription("Currency conversion from " + fromCurrency.getCode() + " to " + toCurrency.getCode());
-        newTransaction.setSenderAccount(account);
-        newTransaction.setAmount(BigDecimal.valueOf(conversionResult));
+        Transaction newTransaction = createTransaction(account, fromCurrency, toCurrency, conversionResult);
 
-        transactionRepository.save(newTransaction);
-
-        String userName = account.getUser().getFirstName() + " " + account.getUser().getLastName();
-        String receipt = emailService.generateReceiptForConversion(newTransaction, conversionRequestDto, userName);
-        emailService.sendReceiptEmail(account.getUser().getEmail(), "E-Gringotts Conversion Receipt", receipt);
+        sendReceipt(account, conversionRequestDto, newTransaction);
 
         return "Conversion successful. A receipt has been sent to your email.";
-
     }
 
+    // Private Helper Methods
     private List<ConversionRate> findConversionPath(Currency fromCurrency, Currency toCurrency) {
         Queue<Currency> queue = new LinkedList<>();
         Map<Currency, Double> conversionRates = new HashMap<>();
@@ -107,13 +101,7 @@ public class CurrencyConversionService {
             Currency current = queue.poll();
 
             if (current.equals(toCurrency)) {
-                List<ConversionRate> path = new LinkedList<>();
-                while (pathMap.containsKey(current)) {
-                    ConversionRate rate = pathMap.get(current);
-                    path.add(0, rate);
-                    current = rate.getFromCurrency();
-                }
-                return path;
+                return buildPath(current, pathMap);
             }
 
             List<ConversionRate> edges = conversionRateRepository.findByFromCurrency(current.getCode());
@@ -130,6 +118,16 @@ public class CurrencyConversionService {
         return Collections.emptyList(); // Conversion path not found
     }
 
+    private List<ConversionRate> buildPath(Currency current, Map<Currency, ConversionRate> pathMap) {
+        List<ConversionRate> path = new LinkedList<>();
+        while (pathMap.containsKey(current)) {
+            ConversionRate rate = pathMap.get(current);
+            path.addFirst(rate);
+            current = rate.getFromCurrency();
+        }
+        return path;
+    }
+
     private double calculateConversionResult(List<ConversionRate> path, double amount) {
         double result = amount;
         for (ConversionRate rate : path) {
@@ -140,14 +138,41 @@ public class CurrencyConversionService {
 
     private double calculateProcessingFee(List<ConversionRate> path, double amount) {
         double totalFee = 0;
-
         for (ConversionRate rate : path) {
             totalFee += amount * rate.getFee();
         }
-
         return totalFee;
     }
 
+    private void updateAccount(Account account, double amount, double processingFee) {
+        BigDecimal amountToSubtract = BigDecimal.valueOf(amount).add(BigDecimal.valueOf(processingFee));
+        account.setBalance(account.getBalance().subtract(amountToSubtract));
+        accountRepository.save(account);
+    }
 
+    private Transaction createTransaction(Account account, Currency fromCurrency, Currency toCurrency, double conversionResult) {
+        Transaction newTransaction = new Transaction();
+        newTransaction.setTransactionType(TransactionType.CONVERSION);
+        newTransaction.setDescription("Currency conversion from " + fromCurrency.getCode() + " to " + toCurrency.getCode());
+        newTransaction.setSenderAccount(account);
+        newTransaction.setAmount(BigDecimal.valueOf(conversionResult));
+        return transactionRepository.save(newTransaction);
+    }
+
+    private void sendReceipt(Account account, NewCurrencyConversionRequestDto conversionRequestDto, Transaction newTransaction) {
+        String userName = account.getUser().getFirstName() + " " + account.getUser().getLastName();
+        String receipt = emailService.generateReceiptForConversion(newTransaction, conversionRequestDto, userName);
+        emailService.sendReceiptEmail(account.getUser().getEmail(), "E-Gringotts Conversion Receipt", receipt);
+    }
+
+    // Utility Methods
+    private void printConversionPath(List<ConversionRate> conversionPath) {
+        System.out.println("Conversion Path:");
+        for (ConversionRate rate : conversionPath) {
+            System.out.println("From " + rate.getFromCurrency().getCode() +
+                    " to " + rate.getToCurrency().getCode() +
+                    " Rate: " + rate.getConversionRate() +
+                    " Fee: " + rate.getFee());
+        }
+    }
 }
-

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminTransactionHistoryRequestDto {
+public class GoblinTransactionHistoryRequestDto {
     private String accountId;
     private String sortBy;
     private String filterByCategory;

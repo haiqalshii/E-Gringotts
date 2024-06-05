@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="mainPage.css">
+
+    <title>AdminHub</title>
+</head>
+<body>
+
+
+<!-- SIDEBAR -->
+<section id="sidebar">
+    <a href="#" class="brand">
+        <i class='bx bxs-smile'></i>
+        <span class="text">E-Gringotts</span>
+    </a>
+    <ul class="side-menu top">
+        <li class="active">
+            <a href="#" id="dashboardButton">
+                <i class='bx bxs-dashboard' ></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="transactionButton">
+                <i class='bx bx-money' ></i>
+                <span class="text">Transactions</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="analyticButton">
+                <i class='bx bxs-doughnut-chart' ></i>
+                <span class="text">Analytics</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="convertButton">
+                <i class='bx bx-transfer-alt' ></i>
+                <span class="text">Convert</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a href="#">
+                <i class='bx bxs-cog' ></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="/auth/HOMEPAGE/homepage.html" class="logout">
+                <i class='bx bxs-log-out-circle' ></i>
+                <span id="logOutButton" class="text">Logout</span>
+            </a>
+        </li>
+    </ul>
+</section>
+<!-- SIDEBAR -->
+
+
+
+<!-- CONTENT -->
+<section id="content">
+    <!-- NAVBAR -->
+    <nav>
+        <i class='bx bx-menu' ></i>
+        <a href="#" class="nav-link">Categories</a>
+        <form action="#">
+            <div class="form-input">
+                <input type="search" placeholder="Search...">
+                <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+            </div>
+        </form>
+        <input type="checkbox" id="switch-mode" hidden>
+        <label for="switch-mode" class="switch-mode"></label>
+        <a href="#" class="notification">
+            <i class='bx bxs-bell' ></i>
+            <span class="num">8</span>
+        </a>
+        <a href="#" class="profile">
+            <img src="qehex.jpg">
+        </a>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main>
+        <section id="dashboard" >
+<a id="dashboardLink">
+            <div class="head-title">
+                <div class="left">
+                     <h1>Dashboard</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-chevron-right' ></i></li>
+                        <li>
+                            <a class="active" href="#" id="home1">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <ul class="box-info">
+            <li>
+                <i class='bx bxs-calendar-check' ></i>
+                <span class="text">
+						<h3>1020</h3>
+						<p>New Order</p>
+					</span>
+            </li>
+            <li>
+                <i class='bx bxs-group' ></i>
+                <span class="text">
+						<h3 id="accountCount" >0</h3>
+						<p>Accounts</p>
+					</span>
+            </li>
+            <li>
+                <i class='bx bxs-dollar-circle' ></i>
+                <span class="text">
+						<h3 id="totalBalance">$0</h3>
+						<p>Total Balance</p>
+                        <p id="knut">(KNUT)</p>
+					</span>
+            </li>
+        </ul>
+
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Account List</h3>
+                        <i class='bx bx-search' ></i>
+                        <i class='bx bx-filter' ></i>
+                    </div>
+                    <div id="accountData">
+                        <table id="accountsTable" style="display:none;">
+                            <thead>
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Balance</th>
+                                <th>Account Tier</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+</a>
+        </section>
+
+
+
+
+        <section id="transaction" style="display: none;" >
+<a id="transactionLink">
+    <div class="head-title">
+        <div class="left">
+            <h1>Transaction</h1>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Transaction</a>
+                </li>
+                <li>
+                    <i class='bx bx-chevron-right' ></i></li>
+                <li>
+                    <a class="active" href="#" id="home2">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+                    <h3>Deposit</h3>
+                </div>
+                <div>
+                    <form id="depositForm">
+                        <label>
+                            <input id="accountNumber" type="number" name="accountNumber" placeholder="Account" oninput="if(value<=0)this.setCustomValidity('Please enter account number');else this.setCustomValidity('');">
+                        </label>
+                        <label>
+                            <input id="amount" type="number" name="amount" placeholder="Amount" pattern='"[1-9][0-9]*"' oninput="if(value<=0)this.setCustomValidity('Amount must be positive');else this.setCustomValidity('');">
+                        </label>
+                        <label>
+                            <input id="description" type="text" name="description" placeholder="Description">
+                        </label>
+                        <button id="depositButton">Deposit</button>
+                    </form>
+
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p id="modalMessage"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+                    <h3>Withdraw</h3>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="table-container">
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+                    <h3>Transfer</h3>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+                    <h3>Transaction History</h3>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+        </section>
+
+<!--        section analytic-->
+        <section id="analytic" style="display: none;">
+            <a id="analyticLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Analytic</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Analytic</a>
+                            </li>
+                            <li><i class='bx bx-chevron-right' ></i></li>
+                            <li>
+                                <a class="active" href="#" id="home3">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="box-info">
+                    <li>
+                        <i class='bx bxs-calendar-check' ></i>
+                        <span class="text">
+						<h3>1020</h3>
+						<p>New Order</p>
+					</span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-group' ></i>
+                        <span class="text">
+						<h3  >0</h3>
+						<p>Accounts</p>
+					</span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-dollar-circle' ></i>
+                        <span class="text">
+						<h3 >$0</h3>
+						<p>Total Balance</p>
+                        <p >(KNUT)</p>
+					</span>
+                    </li>
+                </ul>
+
+
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Account List</h3>
+                            <i class='bx bx-search' ></i>
+                            <i class='bx bx-filter' ></i>
+                        </div>
+                        <div >
+                            <table  style="display:none;">
+                                <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>Balance</th>
+                                    <th>Account Tier</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </section>
+
+<!--        convert section-->
+        <section id="convert" style="display: none;">
+            <a id="convertLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Convert</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Convert</a>
+                            </li>
+                            <li><i class='bx bx-chevron-right' ></i></li>
+                            <li>
+                                <a class="active" href="#" id="home4">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="box-info">
+                    <li>
+                        <i class='bx bxs-calendar-check' ></i>
+                        <span class="text">
+						<h3>1020</h3>
+						<p>New Order</p>
+					</span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-group' ></i>
+                        <span class="text">
+						<h3  >0</h3>
+						<p>Accounts</p>
+					</span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-dollar-circle' ></i>
+                        <span class="text">
+						<h3 >$0</h3>
+						<p>Total Balance</p>
+                        <p >(KNUT)</p>
+					</span>
+                    </li>
+                </ul>
+
+
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Account List</h3>
+                            <i class='bx bx-search' ></i>
+                            <i class='bx bx-filter' ></i>
+                        </div>
+                        <div >
+                            <table  style="display:none;">
+                                <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>Balance</th>
+                                    <th>Account Tier</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </section>
+
+
+    </main>
+    <!-- MAIN -->
+</section>
+<!-- CONTENT -->
+
+
+<script src="mainPage.js"></script>
+</body>
+</html>

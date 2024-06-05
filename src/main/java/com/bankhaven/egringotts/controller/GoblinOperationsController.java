@@ -7,8 +7,7 @@ import com.bankhaven.egringotts.dto.request.account.AccountDeleteRequestDto;
 import com.bankhaven.egringotts.dto.request.account.UpdateAccountRequestDto;
 import com.bankhaven.egringotts.dto.request.auth.NewAccountRequestDto;
 import com.bankhaven.egringotts.dto.request.currencyconversion.AddConversionRateRequestDto;
-import com.bankhaven.egringotts.dto.request.pensievepast.AdminTransactionHistoryRequestDto;
-import com.bankhaven.egringotts.dto.request.pensievepast.TransactionHistoryRequestDto;
+import com.bankhaven.egringotts.dto.request.pensievepast.GoblinTransactionHistoryRequestDto;
 import com.bankhaven.egringotts.dto.request.user.UpdateUserRequestDto;
 import com.bankhaven.egringotts.dto.request.user.UserDeleteRequestDto;
 import com.bankhaven.egringotts.service.AccountService;
@@ -19,21 +18,19 @@ import com.bankhaven.egringotts.dto.request.currencyconversion.AddCurrencyReques
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminOperationsController {
+@RequestMapping("/goblin")
+public class GoblinOperationsController {
 
     private final AccountService accountService;
     private final TransactionService transactionService;
     private final UserService userService;
     private final CurrencyConversionService currencyConversionService;
 
-    public AdminOperationsController(AccountService accountService, TransactionService transactionService, UserService userService, CurrencyConversionService currencyConversionService) {
+    public GoblinOperationsController(AccountService accountService, TransactionService transactionService, UserService userService, CurrencyConversionService currencyConversionService) {
         this.accountService = accountService;
         this.transactionService = transactionService;
         this.userService = userService;
@@ -69,31 +66,31 @@ public class AdminOperationsController {
         return ResponseEntity.ok(message);
     }
 
-    // Allow admin to show ALL accounts of all users
+    // Allow goblin to show ALL accounts of all users
     @GetMapping("/accounts/display-all")
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
         // Method accessible only to users with the role ROLE_ADMIN
-        List<AccountDto> accounts = accountService.getAllAccountsAdmin();
+        List<AccountDto> accounts = accountService.getAllAccountsGoblin();
         return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/display-transactions")
-    public ResponseEntity<List<TransactionDto>> getAllTransactionsAdmin(
-            @RequestBody AdminTransactionHistoryRequestDto adminTransactionHistoryRequestDto) {
-        // Assuming the userId is not needed for the admin as they can view any account
-        String adminUserId = ""; // Or obtain it from the security context if needed
-        List<TransactionDto> transactions = transactionService.getAllTransactionsAdmin(adminUserId, adminTransactionHistoryRequestDto);
+    public ResponseEntity<List<TransactionDto>> getAllTransactionsGoblin(
+            @RequestBody GoblinTransactionHistoryRequestDto goblinTransactionHistoryRequestDto) {
+        // Assuming the userId is not needed for the goblin as they can view any account
+        String goblinUserId = ""; // Or obtain it from the security context if needed
+        List<TransactionDto> transactions = transactionService.getAllTransactionsGoblin(goblinUserId, goblinTransactionHistoryRequestDto);
         return ResponseEntity.ok(transactions);
     }
 
-    // Allow admin to show ALL users
+    // Allow goblin to show ALL users
     @GetMapping("/user/display-all")
-    public ResponseEntity<List<UserDto>> getAllUsersAdmin() {
-        List<UserDto> users = userService.getAllUsersAdmin();
+    public ResponseEntity<List<UserDto>> getAllUsersGoblin() {
+        List<UserDto> users = userService.getAllUsersGoblin();
         return ResponseEntity.ok(users);
     }
 
-    // Allow admin to update accounts of user
+    // Allow goblin to update accounts of user
     @PutMapping("/accounts/update")
     public ResponseEntity<String> updateAccount(@RequestBody UpdateAccountRequestDto updateAccountRequest) {
         // Method accessible only to users with the role ROLE_ADMIN

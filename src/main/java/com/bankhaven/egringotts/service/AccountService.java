@@ -101,7 +101,7 @@ public class AccountService implements AccountServiceInterface {
         return sb.toString();
     }
 
-    public List<AccountDto> getAllAccountsAdmin() {
+    public List<AccountDto> getAllAccountsGoblin() {
         List<Account> accounts = accountRepository.findAllAccounts();
 
         return accounts.stream().map(account -> {

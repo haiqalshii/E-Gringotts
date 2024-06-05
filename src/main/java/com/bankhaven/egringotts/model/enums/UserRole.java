@@ -1,3 +1,3 @@
 package com.bankhaven.egringotts.model.enums;
 
-public enum UserRole {ADMIN, USER;}
+public enum UserRole {GOBLIN, USER;}

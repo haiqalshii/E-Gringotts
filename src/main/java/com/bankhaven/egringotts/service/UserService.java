@@ -35,7 +35,7 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public List<UserDto> getAllUsersAdmin() {
+    public List<UserDto> getAllUsersGoblin() {
         List<User> users = userRepository.findAll();
 
         return users.stream().map(user -> {

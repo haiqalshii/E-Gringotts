@@ -34,7 +34,10 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final ModelMapper modelMapper;
 
-    public AuthenticationService(UserRepository userRepository, AddressRepository addressRepository, DistrictRepository districtRepository, PlaceRepository placeRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, EmailService emailService, ModelMapper modelMapper) {
+    public AuthenticationService(UserRepository userRepository, AddressRepository addressRepository,
+                                 DistrictRepository districtRepository, PlaceRepository placeRepository,
+                                 PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
+                                 EmailService emailService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.districtRepository = districtRepository;
@@ -46,10 +49,10 @@ public class AuthenticationService {
     }
 
     public String register(RegisterUserRequestDto registerUserDto) {
-
         Optional<User> optionalUser = userRepository.findByEmail(registerUserDto.getEmail());
-
-        if (optionalUser.isPresent()) throw new EmailAlreadyInUseException("This email already in use.");
+        if (optionalUser.isPresent()) {
+            throw new EmailAlreadyInUseException("This email already in use.");
+        }
 
         User user = User.builder()
                 .firstName(registerUserDto.getFirstName())
@@ -62,14 +65,14 @@ public class AuthenticationService {
                 .build();
 
         Optional<District> district = districtRepository.findByTitle(registerUserDto.getDistrict());
+        if (district.isEmpty()) {
+            throw new DistrictNotFoundException("District not found.");
+        }
 
-        if(district.isEmpty()) throw new DistrictNotFoundException("District not found.");
-
-        Optional<Place> place = placeRepository
-                .findByTitleAndDistrictId(registerUserDto.getPlace(), district.get().getId());
-
-        if(place.isEmpty())
-            throw new PlaceNotFoundException("Place " + registerUserDto.getPlace() +  " not found for the district : " + district.get().getTitle());
+        Optional<Place> place = placeRepository.findByTitleAndDistrictId(registerUserDto.getPlace(), district.get().getId());
+        if (place.isEmpty()) {
+            throw new PlaceNotFoundException("Place " + registerUserDto.getPlace() + " not found for the district : " + district.get().getTitle());
+        }
 
         User savedUser = userRepository.save(user);
 
@@ -95,13 +98,12 @@ public class AuthenticationService {
         Address savedAddress = addressRepository.save(address);
 
         UserDto userDto = modelMapper.map(savedUser, UserDto.class);
-
         userDto.setAddress(modelMapper.map(savedAddress, AddressDto.class));
 
-
-
         String userDetails = String.format("\nName: %s %s\nEmail: %s\nPhone: %s\nDate of Birth: %s\nAddress: %s\nCards: %s",
-                savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail(), savedUser.getPhoneNumber(), savedUser.getDateOfBirth(), registerUserDto.combineAddress(), registerUserDto.displayCards());
+                savedUser.getFirstName(), savedUser.getLastName(), savedUser.getEmail(),
+                savedUser.getPhoneNumber(), savedUser.getDateOfBirth(), registerUserDto.combineAddress(),
+                registerUserDto.displayCards());
 
         emailService.sendUserCreationMessage(savedUser.getEmail(), userDetails);
 
@@ -112,5 +114,4 @@ public class AuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassword()));
         return userRepository.findByEmail(loginUserDto.getEmail()).orElseThrow();
     }
-
 }

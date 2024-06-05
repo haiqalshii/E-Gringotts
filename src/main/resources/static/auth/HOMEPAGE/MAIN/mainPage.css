@@ -713,3 +713,95 @@ tr:nth-child(even) {
     text-decoration: none;
     cursor: pointer;
 }
+
+
+
+/*This one for form at transaction section*/
+
+form#convertForm {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #58bff6;
+}
+
+button#convertCurrencyButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #55b1df;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#convertCurrencyButton:hover {
+    background-color: #58bff6;
+}
+
+
+.table-data .order .form-input select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    background: var(--grey); /* Add background color */
+    color: var(--dark); /* Add text color */
+    outline: none; /* Remove default focus outline */
+}
+
+.table-data .order .form-input select:focus {
+    border-color: var(--blue); /* Change border color when focused */
+}
+
+/* Styling for the dropdown arrow */
+.table-data .order .form-input::after {
+    content: '\25BC'; /* Unicode for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--dark);
+}
+
+
+
+/* Button styles */
+.table-data .order button {
+    background: #55b1df;
+    color: white;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px; /* Add margin to create space */
+}
+
+/* Hover effect */
+.table-data .order button:hover {
+    background: #449ccd;
+}

@@ -154,6 +154,14 @@
     }
 
     function getUserAccounts() {
+
+        //check dah display ke belom, kalau dah remove when click
+
+        if (userAccountsResult.innerHTML !== '') {
+            userAccountsResult.innerHTML = '';
+            return;
+        }
+
         fetch('/user/my-accounts', {
             method: 'GET',
             headers: {

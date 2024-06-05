@@ -86,6 +86,10 @@ public class UserOperationsController {
     public ResponseEntity<String> depositMoney(@RequestBody @Valid NewDepositMoneyRequestDto depositMoneyRequestDto) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String receipt = transactionService.depositMoney(depositMoneyRequestDto, user.getId());
+//
+//        System.out.println("Deposit Money Request DTO: " + depositMoneyRequestDto);
+//        System.out.println("User: " + user);
+//        System.out.println("Receipt: " + receipt);
         return ResponseEntity.ok(receipt);
     }
 

@@ -4,11 +4,14 @@ import com.bankhaven.egringotts.controller.utils.LoginResponse;
 import com.bankhaven.egringotts.dto.model.UserDto;
 import com.bankhaven.egringotts.dto.request.auth.LoginUserRequestDto;
 import com.bankhaven.egringotts.dto.request.auth.RegisterUserRequestDto;
+import com.bankhaven.egringotts.dto.request.transaction.NewDepositMoneyRequestDto;
 import com.bankhaven.egringotts.model.User;
 import com.bankhaven.egringotts.service.AuthenticationService;
 import com.bankhaven.egringotts.service.JwtUtils;
+import com.bankhaven.egringotts.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +23,13 @@ public class AuthenticationController {
 
     private final JwtUtils jwtUtils;
     private final AuthenticationService authenticationService;
+    private final TransactionService transactionService;
 
 
-    public AuthenticationController(JwtUtils jwtUtils, AuthenticationService authenticationService) {
+    public AuthenticationController(JwtUtils jwtUtils, AuthenticationService authenticationService, TransactionService transactionService) {
         this.jwtUtils = jwtUtils;
         this.authenticationService = authenticationService;
+        this.transactionService = transactionService;
     }
 
     //register a new user
@@ -42,4 +47,15 @@ public class AuthenticationController {
         LoginResponse loginResponse = new LoginResponse(jwtToken, jwtUtils.getExpirationTime());
         return ResponseEntity.ok(loginResponse);
     }
+//
+//    @PostMapping("/accounts/deposit-money")
+//    public ResponseEntity<String> depositMoney(@RequestBody @Valid NewDepositMoneyRequestDto depositMoneyRequestDto) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String receipt = transactionService.depositMoney(depositMoneyRequestDto, user.getId());
+////
+////        System.out.println("Deposit Money Request DTO: " + depositMoneyRequestDto);
+////        System.out.println("User: " + user);
+////        System.out.println("Receipt: " + receipt);
+//        return ResponseEntity.ok(receipt);
+//    }
 }

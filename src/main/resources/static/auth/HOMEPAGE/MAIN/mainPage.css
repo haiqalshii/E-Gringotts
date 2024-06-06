@@ -774,7 +774,7 @@ button#convertCurrencyButton:hover {
     border-color: var(--blue); /* Change border color when focused */
 }
 
-/* Styling for the dropdown arrow */
+ /*Styling for the dropdown arrow */
 .table-data .order .form-input::after {
     content: '\25BC'; /* Unicode for down arrow */
     position: absolute;

@@ -20,6 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -32,6 +37,8 @@ public class UserOperationsController {
     private final UserService userService;
     private final CurrencyConversionService currencyConversionService;
 
+
+    private static final Logger logger = LoggerFactory.getLogger(UserOperationsController.class);
 
     public UserOperationsController(AccountService accountService, TransactionService transactionService, UserService userService, CurrencyConversionService currencyConversionService) {
         this.accountService = accountService;
@@ -107,7 +114,7 @@ public class UserOperationsController {
         return ResponseEntity.ok(userService.getCurrentUser(currentUser));
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<String>> searchAccounts(@RequestBody SearchRequestDto searchRequestDto) {
         List<String> accountNumbers = accountService.getAccountNumbersByUserInfo(searchRequestDto.getUserInfo());
         return ResponseEntity.ok(accountNumbers);

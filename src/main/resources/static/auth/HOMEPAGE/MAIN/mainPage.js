@@ -83,6 +83,8 @@ function getUserAccounts() {
 
     const selectElement = document.getElementById('accountNumberSelect');
     const selectElementWithdraw = document.getElementById('accountNumberSelectWithdraw');
+    const selectElementTransfer = document.getElementById('accountNumberSelectTransfer');
+    const selectElementConvert = document.getElementById('accountNumberSelectConvert');
 
 
 
@@ -112,6 +114,17 @@ function getUserAccounts() {
                 optionWithdraw.value = account.accountNumber;
                 optionWithdraw.textContent = account.accountNumber;
                 selectElementWithdraw.appendChild(optionWithdraw);
+
+                const optionTransfer = document.createElement('option');
+                optionTransfer.value = account.accountNumber;
+                optionTransfer.textContent = account.accountNumber;
+                selectElementTransfer.appendChild(optionTransfer);
+
+                const optionConvert = document.createElement('option');
+                optionConvert.value = account.accountNumber;
+                optionConvert.textContent = account.accountNumber;
+                selectElementConvert.appendChild(optionConvert);
+
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -328,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Transfer button clicked!');
 
             // Retrieve form data
-            const senderAccountNumber = document.getElementById('transferSenderAccountNumber').value;
+            const senderAccountNumber = document.getElementById('accountNumberSelectTransfer').value;
             const receiverAccountNumber = document.getElementById('transferReceiverAccountNumber').value;
             const amount = document.getElementById('transferAmount').value;
             const description = document.getElementById('transferDescription').value;
@@ -410,3 +423,56 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Convert form or button element not found');
     }
 });
+
+
+//Search method for transfer
+
+function populateAccountNumbers(accountNumbers) {
+    const accountNumberSelectTransfer = document.getElementById('transferReceiverAccountNumber');
+    accountNumberSelectTransfer.innerHTML = ''; // Clear existing options
+
+    accountNumbers.forEach(accountNumber => {
+        const option = document.createElement('option');
+        option.value = accountNumber;
+        option.textContent = accountNumber;
+        accountNumberSelectTransfer.appendChild(option);
+    });
+}
+
+
+async function fetchAccountNumbers(userName) {
+    if (!userName) {
+        clearAccountNumbers();
+        return;
+    }
+
+    try {
+        const apiUrl = '/user/search';
+        const requestPayload = { userInfo: userName };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestPayload)
+        });
+
+        if (response.ok) {
+            const accountNumbers = await response.json();
+            populateAccountNumbers(accountNumbers);
+        } else {
+            console.error('Failed to fetch account numbers:', response.statusText);
+            clearAccountNumbers();
+        }
+    } catch (error) {
+        console.error('Error fetching account numbers:', error);
+        clearAccountNumbers();
+    }
+}
+
+document.getElementById('transferReceiverName').addEventListener('input', function () {
+    fetchAccountNumbers(this.value);
+});
+

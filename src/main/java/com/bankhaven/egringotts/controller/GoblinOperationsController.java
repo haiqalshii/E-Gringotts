@@ -47,7 +47,7 @@ public class GoblinOperationsController {
 //        return ResponseEntity.created(locationOfNewAccount).build();
 //    }
 
-    @PostMapping("/create")
+    @PostMapping("/accounts/create")
     public ResponseEntity<String> createAccountForUser(@RequestBody @Valid NewAccountRequestDto newAccountRequest) {
         String message = accountService.createNewAccountForUser(newAccountRequest);
         return ResponseEntity.ok(message);
@@ -69,12 +69,11 @@ public class GoblinOperationsController {
     // Allow goblin to show ALL accounts of all users
     @GetMapping("/accounts/display-all")
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
-        // Method accessible only to users with the role ROLE_ADMIN
         List<AccountDto> accounts = accountService.getAllAccountsGoblin();
         return ResponseEntity.ok(accounts);
     }
 
-    @GetMapping("/display-transactions")
+    @PostMapping("/display-transactions")
     public ResponseEntity<List<TransactionDto>> getAllTransactionsGoblin(
             @RequestBody GoblinTransactionHistoryRequestDto goblinTransactionHistoryRequestDto) {
         // Assuming the userId is not needed for the goblin as they can view any account

@@ -1,5 +1,6 @@
 package com.bankhaven.egringotts.service;
 
+import com.bankhaven.egringotts.model.enums.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +26,12 @@ public class JwtUtils {
         this.Key = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, UserRole role) {
         return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setSubject(userDetails.getUsername())
+                .claim("role", role) // Include the user's role in the token claims
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(Key)
                 .compact();
     }
@@ -47,6 +49,7 @@ public class JwtUtils {
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
+
 
     private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction){
         return claimsTFunction.apply(Jwts.parser().verifyWith(Key).build().parseSignedClaims(token).getPayload());

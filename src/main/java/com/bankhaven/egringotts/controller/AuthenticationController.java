@@ -6,6 +6,7 @@ import com.bankhaven.egringotts.dto.request.auth.LoginUserRequestDto;
 import com.bankhaven.egringotts.dto.request.auth.RegisterUserRequestDto;
 import com.bankhaven.egringotts.dto.request.transaction.NewDepositMoneyRequestDto;
 import com.bankhaven.egringotts.model.User;
+import com.bankhaven.egringotts.model.enums.UserRole;
 import com.bankhaven.egringotts.service.AuthenticationService;
 import com.bankhaven.egringotts.service.JwtUtils;
 import com.bankhaven.egringotts.service.TransactionService;
@@ -43,8 +44,17 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginUserRequestDto loginUserDto) {
         User authenticatedUser = authenticationService.login(loginUserDto);
-        String jwtToken = jwtUtils.generateToken(authenticatedUser);
-        LoginResponse loginResponse = new LoginResponse(jwtToken, jwtUtils.getExpirationTime());
+
+        // Obtain the user's role from the authenticatedUser object
+        UserRole userRole = authenticatedUser.getRole(); // Adjust this according to your User class structure
+
+        // Generate the JWT token with the user's role
+        String jwtToken = jwtUtils.generateToken(authenticatedUser, userRole);
+
+        // Create the login response
+        LoginResponse loginResponse = new LoginResponse(jwtToken, jwtUtils.getExpirationTime(), userRole);
+
+        // Return the response with the JWT token
         return ResponseEntity.ok(loginResponse);
     }
 //

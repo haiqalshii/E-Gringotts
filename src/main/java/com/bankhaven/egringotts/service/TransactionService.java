@@ -133,7 +133,18 @@ public class TransactionService {
             User receiverUser = (transaction.getReceiverAccount() != null) ? transaction.getReceiverAccount().getUser() : null;
             User senderUser = (transaction.getSenderAccount() != null) ? transaction.getSenderAccount().getUser() : null;
 
+            // Log transaction details for debugging
+            System.out.println("Transaction ID: " + transaction.getId());
+            System.out.println("Transaction Date: " + transaction.getDate());
+
             TransactionDto transactionDto = modelMapper.map(transaction, TransactionDto.class);
+
+            if (transaction.getDate() == null) {
+                // Log if the date is null for debugging purposes
+                System.err.println("Transaction date is null for transaction ID: " + transaction.getId());
+            } else {
+                transactionDto.setDate(transaction.getDate().toLocalDate());
+            }
 
             if (senderUser != null) {
                 transactionDto.setSenderUser(modelMapper.map(senderUser, TransactionUserDto.class));

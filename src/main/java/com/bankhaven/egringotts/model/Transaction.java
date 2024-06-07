@@ -34,6 +34,7 @@ public class Transaction {
 
     private BigDecimal amount;
 
+
     @CreationTimestamp
     private LocalDateTime date;
 

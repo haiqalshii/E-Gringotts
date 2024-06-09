@@ -66,9 +66,7 @@ body {
 
 
 }
-#sidebar::--webkit-scrollbar {
-    display: none;
-}
+
 #sidebar.hide {
     width: 60px;
 }
@@ -78,7 +76,7 @@ body {
     height: 56px;
     display: flex;
     align-items: center;
-    color: var(--blue);
+    color: #e69d2c;
     position: sticky;
     top: 0;
     left: 0;
@@ -143,7 +141,7 @@ body {
     overflow-x: hidden;
 }
 #sidebar .side-menu.top li.active a {
-    color: var(--blue);
+    color: #e69d2c;
 
 }
 #sidebar.hide .side-menu li a {
@@ -164,7 +162,7 @@ body {
 
 
 #sidebar .side-menu.top li a:hover {
-    color: var(--blue);
+    color: #e69d2c ;);
 }
 #sidebar .side-menu li a .bx {
     min-width: calc(60px  - ((4px + 6px) * 2));
@@ -228,7 +226,7 @@ body {
     transition: .3s ease;
 }
 #content nav .nav-link:hover {
-    color: var(--blue);
+    color: #e69d2c;
 }
 #content nav form {
     max-width: 400px;
@@ -257,7 +255,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--blue);
+    background: #e69d2c;
     color: var(--light);
     font-size: 18px;
     border: none;
@@ -307,7 +305,7 @@ body {
     left: 2px;
     bottom: 2px;
     width: calc(25px - 4px);
-    background: var(--blue);
+    background: #e69d2c;
     border-radius: 50%;
     transition: all .3s ease;
 }
@@ -357,14 +355,14 @@ body {
     pointer-events: none;
 }
 #content main .head-title .left .breadcrumb li a.active {
-    color: var(--blue);
+    color: #e69d2c;
     pointer-events: unset;
 }
 #content main .head-title .btn-download {
     height: 36px;
     padding: 0 16px;
     border-radius: 36px;
-    background: var(--blue);
+    background: #e69d2c;
     color: var(--light);
     display: flex;
     justify-content: center;
@@ -501,17 +499,17 @@ body {
     object-fit: cover;
 }
 #content main .table-data .order table tbody tr:hover {
-    background: var(--grey);
+    background: #e69d2c;
 }
 #content main .table-data .order table tr td .status {
     font-size: 10px;
     padding: 6px 16px;
-    color: var(--light);
+    color: #e69d2c;
     border-radius: 20px;
     font-weight: 700;
 }
 #content main .table-data .order table tr td .status.completed {
-    background: var(--blue);
+    background: #e69d2c;
 }
 #content main .table-data .order table tr td .status.process {
     background: var(--yellow);
@@ -590,7 +588,7 @@ body {
         width: auto;
         height: auto;
         background: transparent;
-        border-radius: none;
+        border-radius: 10px;
         color: var(--dark);
     }
 
@@ -676,6 +674,29 @@ tr:nth-child(even) {
     background-color: #fff;
 }
 
+#accountsTable{
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#accountsTable tr:hover {
+    background-color: transparent;
+}
+
+#accountsTable tr:nth-child(even) {
+    background-color: var(--grey);
+}
+
+#accountsTable th {
+    background-color: var(--light);
+
+}
+
 #allUserTable{
     width: 100%;
     margin-bottom: 16px;
@@ -728,7 +749,12 @@ tr:nth-child(even) {
 }
 
 #transactionTable tr:nth-child(even) {
-    background-color: #fff;
+    background-color: var(--grey);
+}
+
+#transactionTable th {
+    background-color: var(--light);
+
 }
 
 #totalBalance{
@@ -815,13 +841,13 @@ input[type="password"]:focus,
 input[type="date"],
 input[type="text"]:focus {
     outline: none;
-    border: 1px solid #58bff6;
+    border: 1px solid #e69d2c;
 }
 
 button#convertCurrencyButton {
     width: 100%;
     padding: 10px;
-    background-color: #55b1df;
+    background-color: #e69d2c;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -829,7 +855,7 @@ button#convertCurrencyButton {
 }
 
 button#convertCurrencyButton:hover {
-    background-color: #58bff6;
+    background-color: #e69d2c;
 }
 
 
@@ -846,7 +872,7 @@ button#convertCurrencyButton:hover {
 }
 
 .table-data .order .form-input select:focus {
-    border-color: var(--blue); /* Change border color when focused */
+    border-color: #e69d2c; /* Change border color when focused */
 }
 
 
@@ -855,7 +881,7 @@ button#convertCurrencyButton:hover {
 
 /* Button styles */
 .table-data .order button {
-    background: #55b1df;
+    background: #e69d2c;
     color: white;
     font-size: 18px;
     border: none;
@@ -869,7 +895,7 @@ button#convertCurrencyButton:hover {
 
 /* Hover effect */
 .table-data .order button:hover {
-    background: #449ccd;
+    background: #e69d2c;
 }
 
 .brand {
@@ -890,4 +916,12 @@ button#convertCurrencyButton:hover {
 }
 .brand .text {
     /* Add your text styles here */
+}
+
+.donate {
+    width: 50px; /* Example width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px;
+    margin-left: 20px  /* Space between image and text */
+
 }

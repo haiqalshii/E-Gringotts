@@ -1,6 +1,14 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
+@font-face {
+    font-family: 'Poppins';
+    src: url('User/logo/harry.TTF') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 * {
     box-sizing: border-box;
 }
@@ -11,7 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     height: 100vh;
     margin: -5px 0 20px;
 }
@@ -19,6 +27,7 @@ body {
 h1 {
     font-weight: bold;
     margin: 0;
+    font-size: 40px;
 }
 
 h2 {
@@ -26,28 +35,40 @@ h2 {
 }
 
 p {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
     margin: 20px 0 30px;
 }
 
+input {
+    font-family: var(--poppins);
+    font-size: 18px; /* Adjust the size as needed */
+    padding: 10px; /* Optional: add some padding for better appearance */
+    border: 1px solid var(--grey); /* Optional: add a border */
+    border-radius: 4px; /* Optional: add rounded corners */
+}
+
 span {
     font-size: 12px;
+    font-family: Poppins, sans-serif;
 }
 
 a {
     color: #333;
-    font-size: 14px;
+    font-size: 18px;
     text-decoration: none;
     margin: 15px 0;
+    font-family: Poppins, sans-serif;
 }
 
 button {
+
+    font-family: Poppins, sans-serif;
     border-radius: 20px;
-    border: 1px solid #FF4B2B;
-    background-color: #FF4B2B;
+    border: 1px solid #e69d2c;
+    background-color: #e69d2c;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -91,7 +112,7 @@ input {
 }
 
 .container {
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25),
     0 10px 10px rgba(0,0,0,0.22);
@@ -168,9 +189,9 @@ input {
 }
 
 .overlay {
-    background: #FF416C;
-    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    background: url("User/logo/bass2.png");
+    /*background: -webkit-linear-gradient(to right, #E69D2C, #e69d2c);*/
+    /*background: linear-gradient(to right, #E69D2C, #e69d2c);*/
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;

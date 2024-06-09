@@ -8,11 +8,12 @@
     <!-- My CSS -->
     <link href="mainPage.css" rel="stylesheet">
     <title>E-GRINGOTTS</title>
+    <link rel="icon" href="logo/Logo.png" type="image/x-icon">
 </head>
 <body>
 <!-- SIDEBAR -->
 <section id="sidebar">
-    <a class="brand" href="/auth/HOMEPAGE/Goblin/goblinMainPage.html">
+    <a class="brand" href="/auth/HOMEPAGE/User/mainPage.html">
         <img src="logo/LogoLog.png" alt="E-Gringotts Logo" class="brand-logo">
     </a>
     <ul class="side-menu top">
@@ -31,7 +32,7 @@
         <li>
             <a href="#" id="analyticButton">
                 <i class='bx bxs-doughnut-chart'></i>
-                <span class="text">Analytics</span>
+                <span class="text">Pensieve Past</span>
             </a>
         </li>
         <li>
@@ -108,10 +109,12 @@
                 </div>
                 <ul class="box-info">
                     <li>
-                        <i class='bx bxs-calendar-check'></i>
+                        <img src="logo/fidel.jpg" alt="fidel" class="donate">
                         <span class="text">
-                  <h3>1020</h3>
-                  <p>New Order</p>
+                            <a href="logo/coffee.jpg">
+                  <h3>CLICK ME!!!</h3>
+                  <p>Buy us Some Coffee</p>
+                                </a>
                 </span>
                     </li>
                     <li>
@@ -266,13 +269,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-data">
-                        <div class="order">
-                            <div class="head">
-                                <h3>Transaction History</h3>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </a>
         </section>
@@ -281,10 +277,10 @@
             <a id="analyticLink">
                 <div class="head-title">
                     <div class="left">
-                        <h1>Analytic</h1>
+                        <h1>Pensieve Past</h1>
                         <ul class="breadcrumb">
                             <li>
-                                <a href="#">Analytic</a>
+                                <a href="#">Pensieve Past</a>
                             </li>
                             <li>
                                 <i class='bx bx-chevron-right'></i>
@@ -295,53 +291,73 @@
                         </ul>
                     </div>
                 </div>
-                <ul class="box-info">
-                    <li>
-                        <i class='bx bxs-calendar-check'></i>
-                        <span class="text">
-                  <h3>1020</h3>
-                  <p>New Order</p>
-                </span>
-                    </li>
-                    <li>
-                        <i class='bx bxs-group'></i>
-                        <span class="text">
-                  <h3>0</h3>
-                  <p>Accounts</p>
-                </span>
-                    </li>
-                    <li>
-                        <i class='bx bxs-dollar-circle'></i>
-                        <span class="text">
-                  <h3>$0</h3>
-                  <p>Total Balance</p>
-                  <p>(KNUT)</p>
-                </span>
-                    </li>
-                </ul>
-                <div class="table-data">
-                    <div class="order">
-                        <div class="head">
-                            <h3>Account List</h3>
-                            <i class='bx bx-search'></i>
-                            <i class='bx bx-filter'></i>
-                        </div>
-                        <div>
-                            <table style="display:none;">
-                                <thead>
-                                <tr>
-                                    <th>Account Number</th>
-                                    <th>Balance</th>
-                                    <th>Account Tier</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
+
+                            <div class="table-data">
+                                <div class="order">
+                                    <div class="head">
+                                        <h3>Transaction History</h3>
+                                    </div>
+
+                                    <div class="form-input">
+                                        <div id="transactionFilterForm">
+                                            <label for="accountNumber">Account No:</label>
+                                            <select id="accountNumber" name="accountNumber">
+                                                <option value="">Account number</option>
+                                            </select>
+                                            <label for="sortBy">Sort By:</label>
+                                            <select id="sortBy" name="sortBy">
+                                                <option value="amount">Amount</option>
+                                                <option value="date">Date</option>
+                                                <!-- Add other options if needed -->
+                                            </select>
+                                            <label for="filterByCategory">Filter By Category:</label>
+                                            <select id="filterByCategory" name="filterByCategory">
+                                                <option value="">All</option>
+                                                <option value="FOOD">Food</option>
+                                                <option value="ENTERTAINMENT">Entertainment</option>
+                                                <option value="MEDICAL">Medical</option>
+                                                <option value="UTILITIES">Utilities</option>
+                                                <option value="TRAVEL">Travel</option>
+                                                <option value="SHOPPING">Shopping</option>
+                                                <option value="TRANSPORTATION">Transportation</option>
+                                                <option value="INVESTMENT">Investment</option>
+                                                <option value="FUND_TRANSFER">Fund Transfer</option>
+                                            </select>
+                                            <label for="filterByType">Filter By Type:</label>
+                                            <select id="filterByType" name="filterByType">
+                                                <option value="">All</option>
+                                                <option value="INITIAL">Initial</option>
+                                                <option value="TRANSFER">Transfer</option>
+                                                <option value="WITHDRAW">Withdraw</option>
+                                                <option value="DEPOSIT">Deposit</option>
+                                                <option value="PAYMENT">Payment</option>
+                                                <option value="CONVERSION">Conversion</option>
+                                            </select>
+                                            <button id="fetchTransactionButton" value="Fetch Transaction">Fetch Transactions</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="transactionTableContainer" class="table-data">
+                                <table id="transactionTable" style="display: none;">
+                                    <thead>
+                                    <tr>
+                                        <th>Transaction Type</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Category</th>
+                                        <th>Description</th>
+                                        <th>Sender</th>
+                                        <th>Receiver</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <canvas id="transactionChart" width="400" height="200"></canvas>
+                            </div>
+
             </a>
         </section>
         <!--        convert section-->
@@ -395,6 +411,7 @@
     <!-- MAIN -->
 </section>
 <!-- CONTENT -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="mainPage.js"></script>
 </body>
 </html>

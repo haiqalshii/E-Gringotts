@@ -90,6 +90,7 @@ public class TransactionService {
         Transaction newTransaction = new Transaction();
         newTransaction.setTransactionType(TransactionType.DEPOSIT);
         newTransaction.setDescription(depositMoneyRequestDto.getDescription());
+        newTransaction.setSenderAccount(currentAccount);
         newTransaction.setReceiverAccount(currentAccount); // Set the receiver account
         newTransaction.setAmount(depositMoneyRequestDto.getAmount());
 
@@ -115,8 +116,10 @@ public class TransactionService {
         Transaction newTransaction = new Transaction();
         newTransaction.setTransactionType(TransactionType.WITHDRAW);
         newTransaction.setDescription(withdrawMoneyRequestDto.getDescription());
-        newTransaction.setSenderAccount(currentAccount); // Set the sender account
+        newTransaction.setSenderAccount(currentAccount);
+        newTransaction.setReceiverAccount(currentAccount); // Set the sender account
         newTransaction.setAmount(withdrawMoneyRequestDto.getAmount());
+
 
         Transaction savedTransaction = transactionRepository.save(newTransaction);
 

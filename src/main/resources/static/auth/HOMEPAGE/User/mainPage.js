@@ -85,6 +85,7 @@ function getUserAccounts() {
     const selectElementWithdraw = document.getElementById('accountNumberSelectWithdraw');
     const selectElementTransfer = document.getElementById('accountNumberSelectTransfer');
     const selectElementConvert = document.getElementById('accountNumberSelectConvert');
+    const selectElementTransaction = document.getElementById('accountNumber');
 
 
 
@@ -124,6 +125,11 @@ function getUserAccounts() {
                 optionConvert.value = account.accountNumber;
                 optionConvert.textContent = account.accountNumber;
                 selectElementConvert.appendChild(optionConvert);
+
+                const optionTransaction = document.createElement('option');
+                optionTransaction.value = account.accountNumber;
+                optionTransaction.textContent = account.accountNumber;
+                selectElementTransaction.appendChild(optionTransaction);
 
 
                 const row = document.createElement('tr');
@@ -476,53 +482,122 @@ document.getElementById('transferReceiverName').addEventListener('input', functi
     fetchAccountNumbers(this.value);
 });
 
-function fetchAllTransactions() {
-    const transactionsTable = document.getElementById('allTransactionsTable');
-    const transactionsTableBody = transactionsTable.querySelector('tbody');
+function fetchFilteredTransactions() {
+    const fetchTransactionButton = document.getElementById('fetchTransactionButton');
 
-    fetch('/goblin/display-transactions', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            accountId: "",
-            sortBy: "amount",
-            filterByCategory: "",
-            filterByType: ""
-        })
-    })
-        .then(handleResponse)
-        .then(data => {
-            // Clear previous data
-            transactionsTableBody.innerHTML = '';
 
-            // Iterate over each transaction data
-            data.forEach(transaction => {
-                // Create a new row
-                const row = document.createElement('tr');
+    if (fetchTransactionButton) {
+        fetchTransactionButton.addEventListener('click', function(event) {
+            event.preventDefault();
 
-                // Populate the row with transaction data
-                row.innerHTML = `
-                <td>${transaction.transactionType}</td>
-                <td>${transaction.amount}</td>
-                <td>${transaction.date}</td>
-                <td>${transaction.transactionCategory}</td>
-                <td>${transaction.description}</td>
-                <td>${transaction.senderUser.firstName} ${transaction.senderUser.lastName}</td>
-                <td>${transaction.receiverUser.firstName} ${transaction.receiverUser.lastName}</td>
-            `;
+            // Fetch transaction filter form values
+            const accountNumber = document.getElementById('accountNumber').value;
+            const sortBy = document.getElementById('sortBy').value;
+            const filterByCategory = document.getElementById('filterByCategory').value;
+            const filterByType = document.getElementById('filterByType').value;
 
-                // Append the row to the table body
-                transactionsTableBody.appendChild(row);
-            });
+            // Fetch transactions based on filter criteria
+            fetch('/user/accounts/transaction-history', {
+                method: 'POST', // Use POST method to send body
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    accountNumber: accountNumber,
+                    sortBy: sortBy,
+                    filterByCategory: filterByCategory,
+                    filterByType: filterByType
+                })
+            })
+                .then(handleResponse)
+                .then(data => {
+                    // Access the table body element
+                    const transactionTable = document.getElementById('transactionTable');
+                    const transactionsTableBody = transactionTable.querySelector('tbody');
 
-            // Display the table
-            transactionsTable.style.display = 'table';
-        })
-        .catch(error => console.error('Error:', error));
+                    // Clear previous data
+                    transactionsTableBody.innerHTML = '';
+
+                    // Iterate over each transaction data
+                    data.forEach(transaction => {
+                        // Create a new row
+                        const row = document.createElement('tr');
+
+                        // Populate the row with transaction data
+                        row.innerHTML = `
+                                <td>${transaction.transactionType}</td>
+                                <td>${transaction.amount}</td>
+                                <td>${transaction.date}</td>
+                                <td>${transaction.transactionCategory}</td>
+                                <td>${transaction.description}</td>
+                                <td>${transaction.senderUser.firstName} ${transaction.senderUser.lastName}</td>
+                                <td>${transaction.receiverUser.firstName} ${transaction.receiverUser.lastName}</td>
+                            `;
+
+                        // Append the row to the table body
+                        transactionsTableBody.appendChild(row);
+                    });
+
+                    // Display the table);
+                    transactionTable.style.display = 'table';
+
+                    generateTransactionChart(data);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    }
 }
 
-document.addEventListener('DOMContentLoaded', fetchAllTransactions);
+function generateTransactionChart(transactions) {
+    // Aggregate transaction amounts by category
+    const transactionCategories = {};
+    transactions.forEach(transaction => {
+        const category = transaction.transactionCategory;
+        if (!transactionCategories[category]) {
+            transactionCategories[category] = 0;
+        }
+        transactionCategories[category] += transaction.amount;
+    });
+
+    // Prepare data for the chart
+    const categories = Object.keys(transactionCategories);
+    const amounts = Object.values(transactionCategories);
+
+    const ctx = document.getElementById('transactionChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: categories,
+            datasets: [{
+                label: 'Transaction Amount by Category',
+                data: amounts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            aspectRatio: 3,
+            responsive: true,
+        }
+    });
+}
+document.addEventListener('DOMContentLoaded', fetchFilteredTransactions);
+
 

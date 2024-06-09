@@ -73,7 +73,7 @@ public class UserOperationsController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/accounts/transaction-history")
+    @PostMapping("/accounts/transaction-history")
     public ResponseEntity<List<TransactionDto>> getTransactionHistory(@Valid @RequestBody TransactionHistoryRequestDto requestDto) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<TransactionDto> transactions = transactionService.getTransactionHistory(user.getId(), requestDto);

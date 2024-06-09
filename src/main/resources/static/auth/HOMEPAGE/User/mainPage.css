@@ -63,6 +63,8 @@ body {
     transition: .3s ease;
     overflow-x: hidden;
     scrollbar-width: none;
+
+
 }
 #sidebar::--webkit-scrollbar {
     display: none;
@@ -82,7 +84,7 @@ body {
     left: 0;
     background: var(--light);
     z-index: 500;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
     box-sizing: content-box;
 }
 #sidebar .brand .bx {
@@ -92,7 +94,8 @@ body {
 }
 #sidebar .side-menu {
     width: 100%;
-    margin-top: 48px;
+    margin-top: 0px;
+
 }
 #sidebar .side-menu li {
     height: 48px;
@@ -141,6 +144,7 @@ body {
 }
 #sidebar .side-menu.top li.active a {
     color: var(--blue);
+
 }
 #sidebar.hide .side-menu li a {
     width: calc(48px - (4px * 2));
@@ -149,6 +153,16 @@ body {
 #sidebar .side-menu li a.logout {
     color: var(--red);
 }
+
+.logout {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
 #sidebar .side-menu.top li a:hover {
     color: var(--blue);
 }
@@ -644,7 +658,7 @@ tr:nth-child(even) {
     background-color: #2f2e2e;
 }
 
-#accountsTable{
+#allAccountTable{
     width: 100%;
     margin-bottom: 16px;
     background: var(--grey);
@@ -654,11 +668,66 @@ tr:nth-child(even) {
     justify-content: space-between;
     align-items: center;
 }
-#accountsTable tr:hover {
+#allAccountTable tr:hover {
     background-color: transparent;
 }
 
-#accountsTable tr:nth-child(even) {
+#allAccountTable tr:nth-child(even) {
+    background-color: #fff;
+}
+
+#allUserTable{
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#allUserTable tr:hover {
+    background-color: transparent;
+}
+
+#allUserTable tr:nth-child(even) {
+    background-color: #fff;
+}
+
+#wealthTable{
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#wealthTable tr:hover {
+    background-color: transparent;
+}
+
+#wealthTable tr:nth-child(even) {
+    background-color: #fff;
+}
+
+#transactionTable{
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#transactionTable tr:hover {
+    background-color: transparent;
+}
+
+#transactionTable tr:nth-child(even) {
     background-color: #fff;
 }
 
@@ -667,7 +736,7 @@ tr:nth-child(even) {
 }
 #knut{
 
-   margin-left: 30px;
+    margin-left: 30px;
 
 }
 
@@ -728,6 +797,9 @@ label {
 }
 
 input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
 input[type="text"] {
     width: 100%;
     padding: 8px;
@@ -738,6 +810,9 @@ input[type="text"] {
 }
 
 input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"],
 input[type="text"]:focus {
     outline: none;
     border: 1px solid #58bff6;
@@ -774,16 +849,7 @@ button#convertCurrencyButton:hover {
     border-color: var(--blue); /* Change border color when focused */
 }
 
- /*Styling for the dropdown arrow */
-.table-data .order .form-input::after {
-    content: '\25BC'; /* Unicode for down arrow */
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: var(--dark);
-}
+
 
 
 
@@ -804,4 +870,24 @@ button#convertCurrencyButton:hover {
 /* Hover effect */
 .table-data .order button:hover {
     background: #449ccd;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo {
+    width: 150px; /* Example width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px;
+    margin-left: 20px/* Space between image and text */
+}
+
+.brand .text {
+    font-size: 20px; /* Example font size */
+    /* Add more styles as needed */
+}
+.brand .text {
+    /* Add your text styles here */
 }

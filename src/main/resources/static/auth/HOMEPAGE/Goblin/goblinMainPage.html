@@ -7,14 +7,13 @@
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- My CSS -->
     <link href="mainPage.css" rel="stylesheet">
-    <title>AdminHub</title>
+    <title>E-GRINGOTTS</title>
 </head>
 <body>
 <!-- SIDEBAR -->
 <section id="sidebar">
-    <a class="brand" href="#">
-        <i class='bx bxs-smile'></i>
-        <span class="text">E-Gringotts</span>
+    <a class="brand" href="/auth/HOMEPAGE/Goblin/goblinMainPage.html">
+        <img src="logo/LogoLog.png" alt="E-Gringotts Logo" class="brand-logo">
     </a>
     <ul class="side-menu top">
         <li class="active">
@@ -49,12 +48,13 @@
         </li>
     </ul>
     <ul class="side-menu">
-        <li>
-            <a href="#">
-                <i class='bx bxs-cog'></i>
-                <span class="text">Settings</span>
-            </a>
-        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
         <li>
             <a class="logout" href="/auth/Homepage/homepage.html">
                 <i class='bx bxs-log-out-circle'></i>
@@ -91,7 +91,7 @@
     <!-- NAVBAR -->
     <!-- MAIN -->
     <main>
-        <section id="dashboard">
+        <section id="dashboard" style="display: none;">
             <a id="dashboardLink">
                 <div class="head-title">
                     <div class="left">
@@ -151,14 +151,11 @@
                                     <th>User Wealth</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
                 <div class="table-data">
                     <div class="order">
                         <div class="head">
@@ -167,8 +164,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </a>
         </section>
         <!-- Transaction Analytics Section -->
@@ -200,14 +195,12 @@
                                 <div id="transactionFilterForm">
                                     <label for="accountId">Account ID:</label>
                                     <input type="text" id="accountId" name="accountId">
-
                                     <label for="sortBy">Sort By:</label>
                                     <select id="sortBy" name="sortBy">
                                         <option value="amount">Amount</option>
                                         <option value="date">Date</option>
                                         <!-- Add other options if needed -->
                                     </select>
-
                                     <label for="filterByCategory">Filter By Category:</label>
                                     <select id="filterByCategory" name="filterByCategory">
                                         <option value="">All</option>
@@ -221,7 +214,6 @@
                                         <option value="INVESTMENT">Investment</option>
                                         <option value="FUND_TRANSFER">Fund Transfer</option>
                                     </select>
-
                                     <label for="filterByType">Filter By Type:</label>
                                     <select id="filterByType" name="filterByType">
                                         <option value="">All</option>
@@ -232,7 +224,6 @@
                                         <option value="PAYMENT">Payment</option>
                                         <option value="CONVERSION">Conversion</option>
                                     </select>
-
                                     <button id="fetchTransactionButton" value="Fetch Transaction">Fetch Transactions</button>
                                 </div>
                             </div>
@@ -251,9 +242,7 @@
                                 <th>Receiver</th>
                             </tr>
                             </thead>
-                            <tbody>
-
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -357,7 +346,7 @@
             </div>
         </section>
         <!-- Account Manager-->
-        <section id="accountManager">
+        <section id="accountManager" style="display: none;">
             <a id="accountManagerLink">
                 <div class="head-title">
                     <div class="left">
@@ -399,14 +388,11 @@
                                 <th>Account Tier</th>
                             </tr>
                             </thead>
-                            <tbody>
-
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
             <!-- Create account form -->
             <div class="table-container">
                 <div class="table-data">

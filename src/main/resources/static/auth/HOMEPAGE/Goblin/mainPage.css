@@ -19,7 +19,7 @@ li {
     --lato: 'Lato', sans-serif;
 
     --light: #F9F9F9;
-    --blue: #3C91E6;
+    --blue: #e69d2c;
     --light-blue: #CFE8FF;
     --grey: #eee;
     --dark-grey: #AAAAAA;
@@ -815,13 +815,13 @@ input[type="password"]:focus,
 input[type="date"],
 input[type="text"]:focus {
     outline: none;
-    border: 1px solid #58bff6;
+    border: 1px solid #e69d2c;
 }
 
 button#convertCurrencyButton {
     width: 100%;
     padding: 10px;
-    background-color: #55b1df;
+    background-color: #e69d2c;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -829,7 +829,7 @@ button#convertCurrencyButton {
 }
 
 button#convertCurrencyButton:hover {
-    background-color: #58bff6;
+    background-color: #e69d2c;
 }
 
 
@@ -855,7 +855,7 @@ button#convertCurrencyButton:hover {
 
 /* Button styles */
 .table-data .order button {
-    background: #55b1df;
+    background: #e69d2c;
     color: white;
     font-size: 18px;
     border: none;
@@ -869,7 +869,7 @@ button#convertCurrencyButton:hover {
 
 /* Hover effect */
 .table-data .order button:hover {
-    background: #449ccd;
+    background: #e69d2c;
 }
 
 .brand {

@@ -28,7 +28,12 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         .then(data => {
             if (data.token) {
                 localStorage.setItem('jwtToken', data.token);
-                window.location.href = 'main/mainPage.html';
+                localStorage.setItem('userRole', data.role); // Store the user role
+                if (data.role === 'GOBLIN') {
+                    window.location.href = 'Goblin/goblinMainPage.html'; // Redirect to admin homepage
+                } else {
+                    window.location.href = 'User/mainPage.html'; // Redirect to user homepage
+                }
             } else {
                 alert('Login failed. Please check your credentials.');
             }

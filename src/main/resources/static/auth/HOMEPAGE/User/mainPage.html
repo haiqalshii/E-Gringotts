@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link href="mainPage.css" rel="stylesheet">
+    <title>AdminHub</title>
+</head>
+<body>
+<!-- SIDEBAR -->
+<section id="sidebar">
+    <a class="brand" href="#">
+        <i class='bx bxs-smile'></i>
+        <span class="text">E-Gringotts</span>
+    </a>
+    <ul class="side-menu top">
+        <li class="active">
+            <a href="#" id="dashboardButton">
+                <i class='bx bxs-dashboard'></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="transactionButton">
+                <i class='bx bx-money'></i>
+                <span class="text">Transactions</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="analyticButton">
+                <i class='bx bxs-doughnut-chart'></i>
+                <span class="text">Analytics</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="convertButton">
+                <i class='bx bx-transfer-alt'></i>
+                <span class="text">Convert</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a href="#">
+                <i class='bx bxs-cog'></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a class="logout" href="/auth/Homepage/homepage.html">
+                <i class='bx bxs-log-out-circle'></i>
+                <span class="text" id="logOutButton">Logout</span>
+            </a>
+        </li>
+    </ul>
+</section>
+<!-- SIDEBAR -->
+<!-- CONTENT -->
+<section id="content">
+    <!-- NAVBAR -->
+    <nav>
+        <i class='bx bx-menu'></i>
+        <a class="nav-link" href="#">Categories</a>
+        <form action="#">
+            <div class="form-input">
+                <input placeholder="Search..." type="search">
+                <button class="search-btn" type="submit">
+                    <i class='bx bx-search'></i>
+                </button>
+            </div>
+        </form>
+        <input hidden id="switch-mode" type="checkbox">
+        <label class="switch-mode" for="switch-mode"></label>
+        <a class="notification" href="#">
+            <i class='bx bxs-bell'></i>
+            <span class="num">8</span>
+        </a>
+        <a class="profile" href="#">
+            <img src="qehex.jpg">
+        </a>
+    </nav>
+    <!-- NAVBAR -->
+    <!-- MAIN -->
+    <main>
+        <section id="dashboard">
+            <a id="dashboardLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Dashboard</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Dashboard</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevron-right'></i>
+                            </li>
+                            <li>
+                                <a class="active" href="#" id="home1">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="box-info">
+                    <li>
+                        <i class='bx bxs-calendar-check'></i>
+                        <span class="text">
+                  <h3>1020</h3>
+                  <p>New Order</p>
+                </span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-group'></i>
+                        <span class="text">
+                  <h3 id="accountCount">0</h3>
+                  <p>Accounts</p>
+                </span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-dollar-circle'></i>
+                        <span class="text">
+                  <h3 id="totalBalance">$0</h3>
+                  <p>Total Balance</p>
+                  <p id="knut">(KNUT)</p>
+                </span>
+                    </li>
+                </ul>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Account List</h3>
+                            <i class='bx bx-search'></i>
+                            <i class='bx bx-filter'></i>
+                        </div>
+                        <div id="accountData">
+                            <table id="accountsTable" style="display:none;">
+                                <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>Balance</th>
+                                    <th>Account Tier</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+        <!-- section transaction -->
+        <section id="transaction" style="display: none;">
+            <a id="transactionLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Transaction</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Transaction</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevron-right'></i>
+                            </li>
+                            <li>
+                                <a class="active" href="#" id="home2">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Deposit</h3>
+                            </div>
+                            <div class="form-input">
+                                <form id="depositForm">
+                                    <label>
+                                        <select id="accountNumberSelect" name="accountNumber">
+                                            <option value="">Select Account</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <input id="depositAmount" name="amount" oninput="if(value<=0)this.setCustomValidity('Amount must be positive');else this.setCustomValidity('');" pattern='"[1-9][0-9]*"' placeholder="Amount" type="number">
+                                    </label>
+                                    <label>
+                                        <input id="depositDescription" name="description" placeholder="Description" type="text">
+                                    </label>
+                                    <button id="depositButton">Deposit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Withdraw</h3>
+                            </div>
+                            <div class="form-input">
+                                <form id="withdrawForm">
+                                    <label>
+                                        <select id="accountNumberSelectWithdraw" name="accountNumber">
+                                            <option value="">Select Account</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <input id="withdrawAmount" name="amount" oninput="if(value<=0)this.setCustomValidity('Amount must be positive');else this.setCustomValidity('');" pattern='"[1-9][0-9]*"' placeholder="Amount" type="number">
+                                    </label>
+                                    <label>
+                                        <input id="withdrawDescription" name="description" placeholder="Description" type="text">
+                                    </label>
+                                    <button id="withdrawButton">Withdraw</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Transfer</h3>
+                            </div>
+                            <div class="form-input">
+                                <form id="transferForm">
+                                    <label>
+                                        <select id="accountNumberSelectTransfer" name="accountNumber">
+                                            <option value="">Select Account</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <input id="transferReceiverName" name="toUsier" oninput="fetchAccountNumbers(this.value)" placeholder="To User" type="text">
+                                    </label>
+                                    <label>
+                                        <select id="transferReceiverAccountNumber" name="toAccount">
+                                            <option value="">Select Account Number</option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        <input id="transferAmount" name="amount" oninput="if(value<=0)this.setCustomValidity('Amount must be positive');else this.setCustomValidity('');" pattern='"[1-9][0-9]*"' placeholder="Amount" type="number">
+                                    </label>
+                                    <label>
+                                        <input id="transferDescription" name="description" placeholder="Description" type="text">
+                                    </label>
+                                    <label>
+                                        <div class="form-input">
+                                            <select id="transactionCategory" name="transactionCategory">
+                                                <option value="">Select Transaction Category</option>
+                                                <option value="FOOD">FOOD</option>
+                                                <option value="ENTERTAINMENT">ENTERTAINMENT</option>
+                                                <option value="MEDICAL">MEDICAL</option>
+                                                <option value="UTILITIES">UTILITIES</option>
+                                                <option value="TRAVEL">TRAVEL</option>
+                                                <option value="SHOPPING">SHOPPING</option>
+                                                <option value="TRANSPORTATION">TRANSPORTATION</option>
+                                                <option value="INVESTMENT">INVESTMENT</option>
+                                                <option value="FUND_TRANSFER">FUND TRANSFER</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                    <button id="transferButton">Transfer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-data">
+                        <div class="order">
+                            <div class="head">
+                                <h3>Transaction History</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+        <!--        section analytic-->
+        <section id="analytic" style="display: none;">
+            <a id="analyticLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Analytic</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Analytic</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevron-right'></i>
+                            </li>
+                            <li>
+                                <a class="active" href="#" id="home3">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="box-info">
+                    <li>
+                        <i class='bx bxs-calendar-check'></i>
+                        <span class="text">
+                  <h3>1020</h3>
+                  <p>New Order</p>
+                </span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-group'></i>
+                        <span class="text">
+                  <h3>0</h3>
+                  <p>Accounts</p>
+                </span>
+                    </li>
+                    <li>
+                        <i class='bx bxs-dollar-circle'></i>
+                        <span class="text">
+                  <h3>$0</h3>
+                  <p>Total Balance</p>
+                  <p>(KNUT)</p>
+                </span>
+                    </li>
+                </ul>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Account List</h3>
+                            <i class='bx bx-search'></i>
+                            <i class='bx bx-filter'></i>
+                        </div>
+                        <div>
+                            <table style="display:none;">
+                                <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>Balance</th>
+                                    <th>Account Tier</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+        <!--        convert section-->
+        <section id="convert" style="display: none;">
+            <a id="convertLink">
+                <div class="head-title">
+                    <div class="left">
+                        <h1>Convert</h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="#">Convert</a>
+                            </li>
+                            <li>
+                                <i class='bx bx-chevron-right'></i>
+                            </li>
+                            <li>
+                                <a class="active" href="#" id="home4">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Convert</h3>
+                        </div>
+                        <div class="form-input">
+                            <form id="convertForm">
+                                <label>
+                                    <select id="accountNumberSelectConvert" name="accountNumber">
+                                        <option value="">Select Account</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <input id="convertFromCurrency" name="fromCurrency" placeholder="From Currency" type="text">
+                                </label>
+                                <label>
+                                    <input id="convertToCurrency" name="toCurrency" placeholder="To Currency" type="text">
+                                </label>
+                                <label>
+                                    <input id="convertAmount" name="amount" oninput="if(value<=0)this.setCustomValidity('Amount must be positive');else this.setCustomValidity('');" pattern='"[1-9][0-9]*"' placeholder="Amount" type="number">
+                                </label>
+                                <button id="convertCurrencyButton">Convert!</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
+    </main>
+    <!-- MAIN -->
+</section>
+<!-- CONTENT -->
+<script src="mainPage.js"></script>
+</body>
+</html>

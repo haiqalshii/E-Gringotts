@@ -12,6 +12,7 @@ import com.bankhaven.egringotts.exception.InsufficientBalanceException;
 import com.bankhaven.egringotts.model.Account;
 import com.bankhaven.egringotts.model.Transaction;
 import com.bankhaven.egringotts.model.User;
+import com.bankhaven.egringotts.model.enums.TransactionCategory;
 import com.bankhaven.egringotts.model.enums.TransactionType;
 import com.bankhaven.egringotts.repository.AccountRepository;
 import com.bankhaven.egringotts.repository.TransactionRepository;
@@ -89,6 +90,7 @@ public class TransactionService {
 
         Transaction newTransaction = new Transaction();
         newTransaction.setTransactionType(TransactionType.DEPOSIT);
+        newTransaction.setTransactionCategory(TransactionCategory.DEPOSIT);
         newTransaction.setDescription(depositMoneyRequestDto.getDescription());
         newTransaction.setSenderAccount(currentAccount);
         newTransaction.setReceiverAccount(currentAccount); // Set the receiver account
@@ -115,6 +117,7 @@ public class TransactionService {
 
         Transaction newTransaction = new Transaction();
         newTransaction.setTransactionType(TransactionType.WITHDRAW);
+        newTransaction.setTransactionCategory(TransactionCategory.WITHDRAW);
         newTransaction.setDescription(withdrawMoneyRequestDto.getDescription());
         newTransaction.setSenderAccount(currentAccount);
         newTransaction.setReceiverAccount(currentAccount); // Set the sender account

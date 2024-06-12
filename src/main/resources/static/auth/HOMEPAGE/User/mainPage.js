@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Convert button clicked!');
 
             // Retrieve form data
-            const accountNumber = document.getElementById('convertAccountNumber').value;
+            const accountNumber = document.getElementById('accountNumberSelectConvert').value;
             const fromCurrency = document.getElementById('convertFromCurrency').value;
             const toCurrency = document.getElementById('convertToCurrency').value;
             const amount = document.getElementById('convertAmount').value;

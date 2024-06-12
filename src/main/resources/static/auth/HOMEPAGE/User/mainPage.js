@@ -600,4 +600,98 @@ function generateTransactionChart(transactions) {
 }
 document.addEventListener('DOMContentLoaded', fetchFilteredTransactions);
 
+const buttons = document.querySelectorAll('button');
 
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        button.classList.add('active');
+
+        setTimeout(() => {
+            button.classList.remove('active');
+        }, 200);
+    });
+});
+
+
+const form = document.querySelector('form');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    form.reset();
+
+
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        console.log('Form submitted!');
+
+        // Clear form fields
+        form.reset();
+
+        // Show success message
+        successMessage.style.display = 'block';
+
+        // Hide success message after 3 seconds
+        setTimeout(function () {
+            successMessage.style.display = 'none';
+        }, 3000);
+    });
+});
+// Get the form elements
+const depositForm = document.getElementById('depositForm');
+const depositButton = document.getElementById('depositButton');
+
+// Add click event listener to the deposit button
+depositButton.addEventListener('click', function(event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+
+    this.classList.add('pushed');
+
+
+    setTimeout(() => {
+        depositForm.reset();
+        this.classList.remove('pushed');
+    }, 500);
+});
+const withdrawForm = document.getElementById('withdrawForm');
+const withdrawButton = document.getElementById('withdrawButton');
+
+
+withdrawButton.addEventListener('click', function(event) {
+
+    event.preventDefault();
+
+
+    this.classList.add('pushed');
+
+
+    setTimeout(() => {
+        withdrawForm.reset();
+        this.classList.remove('pushed');
+    }, 500);
+});
+const transferForm = document.getElementById('transferForm');
+const transferButton = document.getElementById('transferButton');
+
+
+transferButton.addEventListener('click', function(event) {
+
+    event.preventDefault();
+
+
+    this.classList.add('pushed');
+
+
+    setTimeout(() => {
+        transferForm.reset();
+        this.classList.remove('pushed');
+    }, 500);
+});

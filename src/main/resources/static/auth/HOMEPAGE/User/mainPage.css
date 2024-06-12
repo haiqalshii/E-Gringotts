@@ -958,3 +958,18 @@ button#convertCurrencyButton:hover {
     margin-left: 20px  /* Space between image and text */
 
 }
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+}
